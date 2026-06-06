@@ -11,6 +11,8 @@ if (isset($_POST['login']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Email or password cannot be empty'); window.location.href = '../login.php'</script>";
     }
 
+     /** @var mysqli $conn */
+
     $stmt = $conn->prepare("SELECT id, username, email, role, password, status FROM users WHERE email = ? LIMIT 1");
 
     $stmt->bind_param('s', $email);
@@ -35,7 +37,7 @@ if (isset($_POST['login']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['user_id'] = $user['id'];
-    $_SESSION['username'] = $user['username'];
+    $_SESSION['email'] = $user['email'];
     $_SESSION['role'] = $user['role'];
 
     if($user['role'] == 'admin'){

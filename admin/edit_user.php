@@ -4,14 +4,25 @@ require_once "../includes/auth.php";
 
 checkRole('admin');
 
+$user_id = $_GET['user_id'];
+
+/** @var mysqli $conn */
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ? ");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+
+$userResults = $stmt->get_result()->fetch_assoc();
+
+$stmt2 = $conn->prepare("SELECT * FROM employees WHERE user_id = ?");
+$stmt2->bind_param("i", $user_id);
+$stmt2->execute();
+
+$employeeResults = $stmt2->get_result()->fetch_assoc();
 
 
-
-
-if (isset($_POST['submit'])) {
+if (isset($_POST['update'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
     $mobile = $_POST['mobile'];
     $department = $_POST['department'];
     $designation = $_POST['designation'];
@@ -19,29 +30,20 @@ if (isset($_POST['submit'])) {
     $role = $_POST['role'];
     $status = $_POST['status'];
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $conn->begin_transaction();
 
     try {
+        $stmt3 = $conn->prepare("UPDATE users SET email = ?, role = ? WHERE id = ?");
+        $stmt3->bind_param('ssi', $email, $role, $user_id);
+        $stmt3->execute();
 
-    /** @var mysqli $conn */
-
-        $conn->begin_transaction();
-
-        $stmt1 = $conn->prepare("INSERT INTO users(email, password, role, status) VALUES (?,?,?,?)");
-        $stmt1->bind_param('ssss', $email, $hashedPassword, $role, $status);
-        $stmt1->execute();
-
-        $user_id = $conn->insert_id;;
-
-        $stmt2 = $conn->prepare("INSERT INTO employees(user_id, full_name, mobile, department, designation, joining_date) VALUES (?,?,?,?,?,?)");
-        $stmt2->bind_param('isssss',$user_id, $name, $mobile, $department, $designation, $joining_date);
-        $stmt2->execute();
+        $stmt4 = $conn->prepare("UPDATE employees SET full_name = ?, mobile = ?, department = ?, designation = ?, joining_date = ? WHERE user_id = ?");
+        $stmt4->bind_param('sssssi', $name, $mobile, $department, $designation, $joining_date, $user_id);
+        $stmt4->execute();
 
         $conn->commit();
-        echo "<script> alert('Employee created successfully'); window.location.href = 'users.php'; </script>";
+        echo "<script> alert('Employee details updated successfully'); window.location.href = 'users.php'; </script>";
     } catch (Exception $e) {
-        
-        /** @var mysqli $conn */
         $conn->rollback();
         echo "Failed" . $e->getMessage();
     }
@@ -49,7 +51,6 @@ if (isset($_POST['submit'])) {
 
 
 ?>
-
 
 
 <!DOCTYPE html>
@@ -69,45 +70,41 @@ if (isset($_POST['submit'])) {
             <div class="row">
                 <div class="mb-3 col-12">
                     <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value=<?php echo $employeeResults['full_name'] ?>>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
-                </div>
-                <div class="mb-3 col-12">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" value=<?php echo $userResults['email'] ?>>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="mobile" class="form-label">Mobile</label>
-                    <input type="number" class="form-control" id="mobile" name="mobile">
+                    <input type="number" class="form-control" id="mobile" name="mobile" value=<?php echo $employeeResults['mobile'] ?>>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="department" class="form-label">Department</label>
-                    <input type="text" class="form-control" id="department" name="department">
+                    <input type="text" class="form-control" id="department" name="department" value=<?php echo $employeeResults['department'] ?>>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="designation" class="form-label">designation</label>
-                    <input type="text" class="form-control" id="designation" name="designation">
+                    <input type="text" class="form-control" id="designation" name="designation" value=<?php echo $employeeResults['designation'] ?>>
                 </div>
                 <div class="mb-3 col-6">
                     <label for="joining" class="form-label">Joining Date</label>
-                    <input type="date" class="form-control" id="joining" name="joining">
+                    <input type="date" class="form-control" id="joining" name="joining" value=<?php echo $employeeResults['joining_date'] ?>>
                 </div>
                 <div class="mb-3 col-3">
                     <label for="role" class="form-label">Role</label>
                     <select class="form-select" id="role" name="role">
                         <option value="">Select Role</option>
-                        <option value="employee">Employee</option>
-                        <option value="manager">Manager</option>
+                        <option value="employee" <?php echo $userResults['role'] == 'employee' ? 'selected' : '' ?>>Employee</option>
+                        <option value="manager" <?php echo $userResults['role'] == 'manager' ? 'selected' : '' ?>>Manager</option>
                     </select>
                 </div>
                 <div class="mb-3 col-3">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" id="status" name="status">
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="active" <?php echo $userResults['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+                        <option value="inactive" <?php echo $userResults['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
                     </select>
                 </div>
             </div>

@@ -17,12 +17,10 @@ if (isset($_POST['submit'])) {
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    try {
-
     /** @var mysqli $conn */
-
-        $conn->begin_transaction();
-
+    $conn->begin_transaction();
+    
+    try {
         $stmt = $conn->prepare("INSERT INTO users(email, password, role, status) VALUES (?,?,?,?)");
         $stmt->bind_param('ssss', $email, $hashedPassword, $role, $status);
         $stmt->execute();
@@ -30,13 +28,13 @@ if (isset($_POST['submit'])) {
         $user_id = $conn->insert_id;;
 
         $stmt2 = $conn->prepare("INSERT INTO employees(user_id, full_name, mobile, department, designation, joining_date) VALUES (?,?,?,?,?,?)");
-        $stmt2->bind_param('isssss',$user_id, $name, $mobile, $department, $designation, $joining_date);
+        $stmt2->bind_param('isssss', $user_id, $name, $mobile, $department, $designation, $joining_date);
         $stmt2->execute();
 
         $conn->commit();
         echo "<script> alert('Employee created successfully'); window.location.href = 'users.php'; </script>";
     } catch (Exception $e) {
-        
+
         /** @var mysqli $conn */
         $conn->rollback();
         echo "Failed" . $e->getMessage();

@@ -6,7 +6,7 @@ checkRole('admin');
 
  /** @var mysqli $conn */
 
-$stmt = $conn->prepare("SELECT u.email, e.mobile, u.role, u.status, e.id, e.full_name, e.department, e.designation,  e.joining_date FROM users u LEFT JOIN employees e ON u.id = e.user_id WHERE u.role != 'admin'");
+$stmt = $conn->prepare("SELECT u.id, u.email, e.mobile, u.role, u.status, e.id as employee_id, e.full_name, e.department, e.designation,  e.joining_date FROM users u LEFT JOIN employees e ON u.id = e.user_id WHERE u.role != 'admin'");
 
 $stmt->execute();
 
@@ -41,6 +41,7 @@ $stmt->close();
                 <th scope="col">Role</th>
                 <th scope="col">Joining Date</th>
                 <th scope="col">status</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -51,7 +52,7 @@ $stmt->close();
                 <tr>
                     <th scope="row"><?php echo $sr++?></th>
                     <td><?php echo $row['full_name'] ?></td>
-                    <td><?php echo $row['id'] ?></td>
+                    <td><?php echo $row['employee_id'] ?></td>
                     <td><?php echo $row['email'] ?></td>
                     <td><?php echo $row['mobile'] ?></td>
                     <td><?php echo $row['department'] ?></td>
@@ -59,6 +60,7 @@ $stmt->close();
                     <td><?php echo $row['role'] ?></td>
                     <td><?php echo $row['joining_date'] ?></td>
                     <td><?php echo $row['status'] ?></td>
+                    <td><button class="btn btn-primary" onclick="window.location.href = 'edit_user.php?user_id=<?php echo $row['id']?>'">Edit</button></td>
                 </tr>
             <?php } ?>
         </tbody>

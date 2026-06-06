@@ -13,7 +13,7 @@ if (isset($_POST['login']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
      /** @var mysqli $conn */
 
-    $stmt = $conn->prepare("SELECT id, username, email, role, password, status FROM users WHERE email = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, email, role, password, status FROM users WHERE email = ? LIMIT 1");
 
     $stmt->bind_param('s', $email);
     $stmt->execute();

@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
 
     /** @var mysqli $conn */
     $conn->begin_transaction();
-    
+
     try {
         $stmt = $conn->prepare("INSERT INTO users(email, password, role, status) VALUES (?,?,?,?)");
         $stmt->bind_param('ssss', $email, $hashedPassword, $role, $status);
@@ -30,6 +30,19 @@ if (isset($_POST['submit'])) {
         $stmt2 = $conn->prepare("INSERT INTO employees(user_id, full_name, mobile, department, designation, joining_date) VALUES (?,?,?,?,?,?)");
         $stmt2->bind_param('isssss', $user_id, $name, $mobile, $department, $designation, $joining_date);
         $stmt2->execute();
+
+        $employee_id = $conn->insert_id;
+
+        $stmt3 = $conn->prepare("SELECT id, leave_name, default_allocation FROM leave_types");
+        $stmt3->execute();
+
+        $leave_types = $stmt3->get_result();
+
+        while($row = $leave_types->fetch_assoc()){
+        $stmt4 = $conn->prepare("INSERT INTO leave_balances(employee_id, leave_type_id, available_days) VALUES(?,?,?)");
+        $stmt4->bind_param('iii', $employee_id, $row['id'], $row['default_allocation']);
+        $stmt4->execute();
+        }
 
         $conn->commit();
         echo "<script> alert('Employee created successfully'); window.location.href = 'users.php'; </script>";

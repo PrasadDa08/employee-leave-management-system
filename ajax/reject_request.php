@@ -2,6 +2,7 @@
 header("Content-Type: application/json");
 require_once "../config/database.php";
 require_once "../includes/auth.php";
+require_once "../includes/functions.php";
 date_default_timezone_set('asia/kolkata');
 
 checkRole('manager');
@@ -14,6 +15,12 @@ $remarks = $_POST['remarks'];
 $stmt = $conn->prepare("UPDATE leave_requests SET status = 'rejected', approved_by = ?, manager_remarks = ?, approved_at = NOW() WHERE id = ?");
 $stmt->bind_param('isi', $_SESSION['user_id'], $remarks, $request_id);
 $stmt->execute();
+
+addAuditLog(
+    $conn,
+    $_SESSION['user_id'],
+    "Rejected leave request ID: " . $request_id
+);
 
 echo json_encode([
     'status' => true,

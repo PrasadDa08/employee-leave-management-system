@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 require_once "../config/database.php";
 require_once "../includes/auth.php";
+require_once "../includes/functions.php";
 date_default_timezone_set('asia/kolkata');
 
 checkRole('manager');
@@ -22,7 +23,7 @@ $total_days = $results['total_days'];
 
 $conn->begin_transaction();
 
-try{
+try {
 
     $stmt2 = $conn->prepare("UPDATE leave_requests SET status = 'approved', approved_by = ?, approved_at = NOW() WHERE id = ?");
     $stmt2->bind_param('ii', $_SESSION['user_id'], $request_id);
@@ -34,17 +35,24 @@ try{
 
     $conn->commit();
 
+    addAuditLog(
+        $conn,
+        $_SESSION['user_id'],
+        "Approved leave request ID: " . $request_id
+    );
+
     echo json_encode(
         [
             "status" => true,
             "message" => "Leave approved successfully"
         ]
     );
-    exit();
 
-}catch(Exception $e){
+
+    exit();
+} catch (Exception $e) {
     $conn->rollback();
-     echo json_encode(
+    echo json_encode(
         [
             "status" => false,
             "message" => "Failed to approve leave"
@@ -52,7 +60,3 @@ try{
     );
     exit();
 }
-
-
-
-?>

@@ -14,7 +14,7 @@ checkRole('employee');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Document</title>
+    <title>Employee Panel</title>
 </head>
 
 <body>
@@ -25,7 +25,7 @@ checkRole('employee');
             <div class="row">
                 <div class="mb-3 col-4">
                     <label for="leaveType" class="form-label">Leave Type</label>
-                    <select class="form-select" id="leaveType" name="leaveType">
+                    <select class="form-select" id="leaveType" name="leaveType" required>
                         <option value="">Select Leave Type</option>
                         <?php
                         /** @var mysqli $conn */
@@ -41,15 +41,15 @@ checkRole('employee');
                 </div>
                 <div class="mb-3 col-4">
                     <label for="startDate" class="form-label">Start Date</label>
-                    <input type="date" class="form-control" id="startDate" name="start_date">
+                    <input type="date" class="form-control" id="startDate" name="start_date" min="<?php date('Y-m-d')?>" required>
                 </div>
                 <div class="mb-3 col-4">
                     <label for="endDate" class="form-label">End Date</label>
-                    <input type="date" class="form-control" id="endDate" name="end_date">
+                    <input type="date" class="form-control" id="endDate" name="end_date" min="<?php date('Y-m-d')?>" required>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="reason" class="form-label">Reason</label>
-                    <textarea class="form-control" id="reason" name="reason"></textarea>
+                    <textarea class="form-control" id="reason" name="reason" required></textarea>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" name="submit">Submit</button>

@@ -1,5 +1,6 @@
 <?php
 header("Content-Type: application/json");
+require_once "../includes/functions.php";
 require_once "../config/database.php";
 require_once "../includes/auth.php";
 date_default_timezone_set('asia/kolkata');
@@ -56,6 +57,12 @@ $stmt1 = $conn->prepare("INSERT INTO leave_requests(employee_id, leave_type_id, 
 
 $stmt1->bind_param('iissis', $employee_id, $leave_type_id, $start_date, $end_date, $total_days, $reason);
 $stmt1->execute();
+
+addAuditLog(
+    $conn,
+    $_SESSION['user_id'],
+    "Applied leave request ID: " . $conn->insert_id
+);
 
 echo json_encode([
     "status" => true,

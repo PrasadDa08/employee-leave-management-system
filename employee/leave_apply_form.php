@@ -18,7 +18,9 @@ checkRole('employee');
 </head>
 
 <body>
+    <?php include_once "header.php" ?>
     <div class="container">
+        <h3 class="text-center p-3 border-bottom border-5">Apply Leave Form</h3>
         <form id="leaveForm">
             <div class="row">
                 <div class="mb-3 col-4">
@@ -63,11 +65,11 @@ checkRole('employee');
             url: "../ajax/apply_leave.php",
             method: 'POST',
             data: $(this).serialize(),
-            success: function(response){
-                if(response.status) {
+            success: function(response) {
+                if (response.status) {
                     alert(response.message);
                     $("#leaveForm")[0].reset();
-                }else{
+                } else {
                     alert(response.message);
                 }
             }

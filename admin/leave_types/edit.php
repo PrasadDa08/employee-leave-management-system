@@ -41,21 +41,23 @@ if (isset($_POST['update'])) {
 </head>
 
 <body>
+    <?php include_once "header.php" ?>
     <div class="container">
+        <h3 class="text-center p-3 border-bottom border-5">Update Allocated Leaved</h3>
         <form method="POST">
             <div class="row">
                 <div class="mb-3 col-12">
                     <label for="name" class="form-label">Leave Type</label>
-                    <input type="text" class="form-control" id="name" name="name" value=<?php echo $leaveResults['leave_name']?>>
+                    <input type="text" class="form-control" id="name" name="name" value=<?php echo $leaveResults['leave_name'] ?>>
                 </div>
                 <div class="mb-3 col-12">
                     <label for="attocation" class="form-label">Allocation</label>
-                    <input type="number" class="form-control" id="allocation" name="allocation" value=<?php echo $leaveResults['default_allocation']?>>
+                    <input type="number" class="form-control" id="allocation" name="allocation" value=<?php echo $leaveResults['default_allocation'] ?>>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-primary" name="update">Update</button>
-
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Back</button>
         </form>
     </div>
 </body>

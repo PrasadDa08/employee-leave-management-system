@@ -85,7 +85,7 @@ $stmt->close();
 </head>
 
 <body>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover table-bordered text-center mt-3">
         <thead>
             <tr>
                 <th scope="col">Sr</th>
@@ -119,8 +119,8 @@ $stmt->close();
                         <td><?php echo $row1['end_date'] ?></td>
                         <td><?php echo $row1['total_days'] ?></td>
                         <td><?php echo $row1['status'] ?></td>
-                        <td><?php echo $row1['approved_by'] ?></td>
-                        <td><?php echo $row1['approved_at'] ?></td>
+                        <td><?php echo $row1['approved_by'] ?? "--" ?></td>
+                        <td><?php echo $row1['approved_at'] ?? "--" ?></td>
                     </tr>
             <?php }
             } ?>

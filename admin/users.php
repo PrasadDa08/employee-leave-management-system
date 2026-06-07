@@ -22,25 +22,28 @@ checkRole('admin');
 </head>
 
 <body>
-    <form id="searchForm">
-        <div class="row">
-            <div class="mb-3 col-12">
-                <label for="search" class="form-label">Search</label>
-                <input type="search" class="form-control" id="search" name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
+    <?php include_once "header.php" ?>
+
+    <h3 class="text-center p-3 border-bottom border-5">Employees List</h3>
+    <div class="d-flex justify-content-between mt-4">
+        <a class="btn btn-primary ms-2" href="create_users.php">Add Employees</a>
+        <form id="searchForm">
+            <div class="row">
+                <div class="col-7 d-inline">
+                    <input type="search" class="form-control" id="search" name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>">
+                </div>
+                <button type="submit" class="btn btn-primary col-3 me-1" name="search">Search</button>
             </div>
-        </div>
+        </form>
+    </div>
 
-        <button type="submit" class="btn btn-primary" name="search">Search</button>
-
-    </form>
-
-    <div id="tableContainer">
+    <div id="tableContainer" class="table-responsive mt-3">
 
     </div>
 </body>
 <script>
-    function loadUsers(){
-         $.ajax({
+    function loadUsers() {
+        $.ajax({
             url: 'users_data.php',
             method: 'GET',
             data: $("#searchForm").serialize(),
@@ -51,11 +54,11 @@ checkRole('admin');
         })
     }
 
-     loadUsers();
+    loadUsers();
 
     $("#searchForm").submit(function(e) {
         e.preventDefault();
-         loadUsers();
+        loadUsers();
     })
 </script>
 

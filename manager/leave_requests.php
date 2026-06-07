@@ -26,7 +26,9 @@ $result = $stmt->get_result();
 </head>
 
 <body>
-    <table class="table table-striped table-hover">
+    <?php include_once "header.php"?>
+        <h3 class="text-center p-3 border-bottom border-5">Leave Requests</h3>
+    <table class="table table-striped table-hover mt-3">
         <thead>
             <tr>
                 <th scope="col">#</th>

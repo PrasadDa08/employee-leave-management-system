@@ -18,13 +18,15 @@ checkRole('admin');
 </head>
 
 <body>
-    <form id="reportForm">
+    <?php include_once "header.php" ?>
+    <h3 class="text-center p-3 border-bottom border-5">Reports</h3>
+    <form id="reportForm" class="p-3">
         <div class="row">
-            <div class="mb-3 col-12">
+            <div class="mb-3 col-4">
                 <label for="name" class="form-label">Employee Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_GET['name']) ? $_GET['name'] : '' ?>">
             </div>
-            <div class="mb-3 col-12">
+            <div class="mb-3 col-4">
                 <label for="department" class="form-label">Department</label>
                 <input type="text" class="form-control" id="department" name="department" value="<?php echo isset($_GET['department']) ? $_GET['department'] : '' ?>">
             </div>
@@ -44,7 +46,7 @@ checkRole('admin');
                     <?php } ?>
                 </select>
             </div>
-            <div class="mb-3 col-3">
+            <div class="mb-3 col-4">
                 <label for="status" class="form-label">Leave Status</label>
                 <select class="form-select" id="status" name="status">
                     <option value="all" <?php echo isset($_GET['status']) && ($_GET['status'] == 'all') ? 'selected' : '' ?>>All</option>
@@ -53,38 +55,43 @@ checkRole('admin');
                     <option value="rejected" <?php echo isset($_GET['status']) && ($_GET['status'] == 'rejected') ? 'selected' : '' ?>>Rejected</option>
                 </select>
             </div>
-            <div class="mb-3 col-6">
+            <div class="mb-3 col-4">
                 <label for="from_date" class="form-label">From Date</label>
                 <input type="date" class="form-control" id="from_date" name="from_date" value="<?php echo isset($_GET['from_date']) ? $_GET['from_date'] : '' ?>">
             </div>
-            <div class="mb-3 col-6">
+            <div class="mb-3 col-4">
                 <label for="to_date" class="form-label">To Date</label>
                 <input type="date" class="form-control" id="to_date" name="to_date" value="<?php echo isset($_GET['to_date']) ? $_GET['to_date'] : '' ?>">
             </div>
 
         </div>
 
-        <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        <button type="submit" class="btn btn-primary ms-auto" name="submit">Filter</button>
 
     </form>
 
-    <div id="reportContainer">
+    <div id="reportContainer" class="table-responsive">
 
     </div>
 </body>
 <script>
-    $("#reportForm").submit(function(e) {
-        e.preventDefault();
-
+    function loadReport() {
         $.ajax({
             url: "report_data.php",
             method: 'GET',
-            data: $(this).serialize(),
+            data: $("#reportForm").serialize(),
 
             success: function(response) {
                 $("#reportContainer").html(response);
             }
         })
+    }
+
+    loadReport()
+    $("#reportForm").submit(function(e) {
+        e.preventDefault();
+        loadReport()
+
     })
 </script>
 

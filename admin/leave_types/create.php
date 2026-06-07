@@ -35,7 +35,9 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+    <?php include_once "header.php" ?>
     <div class="container">
+        <h3 class="text-center p-3 border-bottom border-5">Employee Update Form</h3>
         <form method="POST">
             <div class="row">
                 <div class="mb-3 col-12">

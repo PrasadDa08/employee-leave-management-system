@@ -26,7 +26,7 @@ $query .= " ORDER BY u.id DESC";
 
 $stmt = $conn->prepare($query);
 
-if(!empty($params)){
+if (!empty($params)) {
     $stmt->bind_param($type, ...$params);
 }
 
@@ -47,7 +47,7 @@ $result = $stmt->get_result();
 </head>
 
 <body>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover table-bordered text-center">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -80,7 +80,7 @@ $result = $stmt->get_result();
                     <td><?php echo $row['role'] ?></td>
                     <td><?php echo $row['joining_date'] ?></td>
                     <td><?php echo $row['status'] ?></td>
-                    <td><button class="btn btn-primary" onclick="window.location.href = 'edit_user.php?user_id=<?php echo $row['id'] ?>'">Edit</button>
+                    <td><button class="btn btn-primary btn-sm" onclick="window.location.href = 'edit_user.php?user_id=<?php echo $row['id'] ?>'">Edit</button>
                         <?php if ($row['status'] == 'active') { ?>
                             <a href="toggle_status.php?user_id=<?php echo $row['id']; ?>&status=inactive"
                                 class="btn btn-danger btn-sm">

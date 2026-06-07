@@ -28,7 +28,9 @@ $stmt->close();
 </head>
 
 <body>
-    <table class="table table-striped table-hover">
+    <?php include_once "header.php" ?>
+    <h3 class="text-center p-3 border-bottom border-5">Alloted Leaves List</h3>
+    <table class="table table-sm table-striped table-bordered table-hover mt-3 text-center">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -46,7 +48,7 @@ $stmt->close();
                     <th scope="row"><?php echo $sr++ ?></th>
                     <td><?php echo $row['leave_name'] ?></td>
                     <td><?php echo $row['default_allocation'] ?></td>
-                    <td><button class="btn btn-primary" onclick="window.location.href = 'edit.php?leave_id=<?php echo $row['id']?>'">Edit</button></td>
+                    <td><button class="btn btn-primary btn-sm" onclick="window.location.href = 'edit.php?leave_id=<?php echo $row['id'] ?>'">Edit</button></td>
                 </tr>
             <?php } ?>
         </tbody>

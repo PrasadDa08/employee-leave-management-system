@@ -60,51 +60,64 @@ $rejectedRequests = $rejectedStmt->get_result()->fetch_assoc();
 </head>
 
 <body>
+    <?php include_once "header.php"?>
     <div class="container">
-        <div class="row g-3  mx-auto">
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Employees</h5>
-                    <p class="card-text"><?php echo $totalEmployees['total_employees'] ?></p>
+        <h3 class="text-center p-3 border-bottom border-5">Admin Dashboard</h3>
+        <div class="row g-3">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Employees</h5>
+                        <p class="card-text"><?php echo $totalEmployees['total_employees'] ?></p>
+                    </div>
                 </div>
             </div>
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Active Employees</h5>
-                    <p class="card-text"><?php echo $activeEmployees['total_active_employees'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Employees</h5>
+                        <p class="card-text"><?php echo $activeEmployees['total_active_employees'] ?></p>
+                    </div>
                 </div>
             </div>
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Inactive Employees</h5>
-                    <p class="card-text"><?php echo $inactiveEmployees['total_inactive_employees'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Inactive Employees</h5>
+                        <p class="card-text"><?php echo $inactiveEmployees['total_inactive_employees'] ?></p>
+                    </div>
                 </div>
             </div>
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Total Leave Requests</h5>
-                    <p class="card-text"><?php echo $totalRequests['total'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Leave Requests</h5>
+                        <p class="card-text"><?php echo $totalRequests['total'] ?></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Approved Leave Requests</h5>
-                    <p class="card-text"><?php echo $approvedRequests['total'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Approved Leave Requests</h5>
+                        <p class="card-text"><?php echo $approvedRequests['total'] ?></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Rejected Leave Requests</h5>
-                    <p class="card-text"><?php echo $rejectedRequests['total'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Rejected Leave Requests</h5>
+                        <p class="card-text"><?php echo $rejectedRequests['total'] ?></p>
+                    </div>
                 </div>
             </div>
-
-            <div class="card col-3 mx-3">
-                <div class="card-body">
-                    <h5 class="card-title">Pending Leave Requests</h5>
-                    <p class="card-text"><?php echo $pendingRequests['total'] ?></p>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Leave Requests</h5>
+                        <p class="card-text"><?php echo $pendingRequests['total'] ?></p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -46,9 +46,7 @@ if (isset($_POST['submit'])) {
                     <textarea class="form-control" id="remarks" name="remarks" required></textarea>
                 </div>
             </div>
-
             <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-
         </form>
     </div>
 </body>

@@ -15,11 +15,19 @@ $reason = $_POST['reason'];
 $total_days = ((strtotime($end_date) - strtotime($start_date)) / (60 * 60 * 24)) + 1;
 
 if ($start_date < date('Y-m-d')) {
-    die("Start date cannot be earlier than today");
+    echo json_encode([
+        "status" => false,
+        "message" => 'Start dade cannot be before today'
+    ]);
+    exit();
 }
 
 if ($end_date < $start_date) {
-    die("End Date cannot be earlier and Start Date");
+    echo json_encode([
+        "status" => false,
+        "message" => 'End Date cannot be earlier and Start Date'
+    ]);
+    exit();
 }
 
 
@@ -39,7 +47,11 @@ $availableBalanceStmt->execute();
 $leaveBalance = $availableBalanceStmt->get_result()->fetch_assoc();
 
 if ($leaveBalance['available_days'] < $total_days) {
-    die("Insufficient leave balance");
+    echo json_encode([
+        "status" => false,
+        "message" => 'Insufficient leave balance'
+    ]);
+    exit();
 }
 
 $overlappingStmt = $conn->prepare("SELECT id FROM leave_requests WHERE employee_id = ? AND status IN('pending','approved') AND start_date <= ? AND end_date >= ?");
@@ -50,7 +62,11 @@ $overlappingStmt->execute();
 $overlappingResult = $overlappingStmt->get_result();
 
 if ($overlappingResult->num_rows > 0) {
-    die("Overlapping leave request exists");
+    echo json_encode([
+        "status" => false,
+        "message" => 'Overlapping leave request exists'
+    ]);
+    exit();
 }
 
 $stmt1 = $conn->prepare("INSERT INTO leave_requests(employee_id, leave_type_id, start_date, end_date, total_days, reason) VALUES (?, ?, ?, ?, ?, ?)");

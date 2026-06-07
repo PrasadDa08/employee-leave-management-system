@@ -4,6 +4,12 @@ A web-based Employee Leave Management System built using **Core PHP**, **MySQL**
 
 ---
 
+## Screenshots Preview
+
+Screenshots of major application modules are available in the `screenshots/` folder.
+
+---
+
 ## Features
 
 ### Authentication & Authorization
@@ -75,6 +81,15 @@ The following operations are implemented using AJAX:
 
 ---
 
+## Audit Log
+
+- Logs user creation and updates
+- Logs user enable/disable actions
+- Logs leave applications
+- Logs leave approvals and rejections
+
+---
+
 ## Technology Stack
 
 | Layer | Technology |
@@ -101,9 +116,7 @@ employee-leave-management-system/
 ├── includes/
 ├── sql/
 ├── screenshots/
-│
 ├── login.php
-├── logout.php
 └── README.md
 ```
 
@@ -124,7 +137,7 @@ CREATE DATABASE employee_leave_management;
 Import:
 
 ```text
-sql/database.sql
+sql/employee_leave_management.sql
 ```
 
 ### Step 3
@@ -151,7 +164,7 @@ $database = "employee_leave_management";
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/PrasadDa08/employee-leave-management-system.git
 ```
 
 Move the project into your web server directory:
@@ -186,22 +199,22 @@ http://localhost/employee-leave-management-system/login.php
 ### Administrator
 
 ```text
-Email: admin@company.com
-Password: ********
+Email: admin@test.com
+Password: admin123
 ```
 
 ### Manager
 
 ```text
-Email: manager@company.com
-Password: ********
+Email: manager@test.com
+Password: manager123
 ```
 
 ### Employee
 
 ```text
-Email: employee@company.com
-Password: ********
+Email: emp5@test.com
+Password: 12345
 ```
 
 ---

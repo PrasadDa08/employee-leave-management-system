@@ -9,7 +9,7 @@
                     <a class="nav-link" href="index.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="users.php">Leave Requests</a>
+                    <a class="nav-link" href="leave_requests.php">Leave Requests</a>
                 </li>
             </ul>
             <a href="../ajax/logout.php" class="btn btn-danger float-right">Logout</a>

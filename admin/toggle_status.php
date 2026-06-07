@@ -15,7 +15,7 @@ $stmt->bind_param("si", $status, $user_id);
 
 $stmt->execute();
 
-if ($user_id == 'active') {
+if ($status == 'active') {
     addAuditLog(
         $conn,
         $_SESSION['user_id'],

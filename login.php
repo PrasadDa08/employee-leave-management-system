@@ -12,7 +12,7 @@
 <body>
     <div class="container vh-100 d-flex flex-column justify-content-center">
         <h2 class="mx-auto">Login</h2>
-        <form method="POST" action="ajax/login.php">
+        <form method="POST" action="ajax/login.php" class="border border-3 rounded p-5">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required>

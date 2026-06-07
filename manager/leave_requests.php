@@ -21,6 +21,7 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>View Users</title>
 </head>
 
@@ -55,13 +56,73 @@ $result = $stmt->get_result();
                     <td><?php echo $row['total_days'] ?></td>
                     <td><?php echo $row['reason'] ?></td>
                     <td><?php echo $row['status'] ?></td>
-                    <td><button class="btn btn-success" onclick="window.location.href = 'approve_request.php?request_id=<?php echo $row['id']?>'">Approve</button>
-                        <button class="btn btn-danger" onclick="window.location.href = 'reject_request.php?request_id=<?php echo $row['id'] ?>'">Reject</button>
+                    <td><button class="btn btn-success approve-btn" data-id="<?php echo $row['id'] ?>">Approve</button>
+                        <button class="btn btn-danger reject-btn" data-id="<?php echo $row['id'] ?>">Reject</button>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 </body>
+<script>
+    $(document).on('click', '.approve-btn', function() {
+        let requestId = $(this).data('id');
+        let row = $(this).closest('tr');
+
+        $.ajax({
+            url: '../ajax/approve_request.php',
+            type: 'POST',
+            data: {
+                request_id: requestId
+            },
+            success: function(response) {
+                if (response.status) {
+                    alert(response.message);
+                    row.remove();
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert("Something went wrong");
+            }
+        })
+    })
+
+    $(document).on('click', '.reject-btn', function() {
+        let requestId = $(this).data('id');
+        let row = $(this).closest('tr');
+        let remarks = prompt('Enter rejection remarks');
+
+        if (remarks === null) {
+            return;
+        }
+
+        if (remarks == '') {
+            alert("Manager remarks are required");
+            return;
+        }
+
+        $.ajax({
+            url: '../ajax/reject_request.php',
+            method: 'POST',
+            data: {
+                request_id: requestId,
+                remarks: remarks
+            },
+            success: function(response) {
+                if (response.status) {
+                    alert(response.message);
+                    row.remove();
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert("Something went wrong");
+            }
+        })
+    })
+</script>
 
 </html>

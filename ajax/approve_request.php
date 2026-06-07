@@ -1,11 +1,12 @@
 <?php
+header('Content-Type: application/json');
 require_once "../config/database.php";
 require_once "../includes/auth.php";
 date_default_timezone_set('asia/kolkata');
 
 checkRole('manager');
 
-$request_id = $_GET['request_id'];
+$request_id = $_POST['request_id'];
 
 /** @var mysqli $conn */
 
@@ -33,12 +34,23 @@ try{
 
     $conn->commit();
 
-    echo "<script>alert('Leave approved successfully'); window.location.href='leave_requests.php';</script>";
+    echo json_encode(
+        [
+            "status" => true,
+            "message" => "Leave approved successfully"
+        ]
+    );
     exit();
 
 }catch(Exception $e){
     $conn->rollback();
-     echo "Failed" . $e->getMessage();
+     echo json_encode(
+        [
+            "status" => false,
+            "message" => "Failed to approve leave"
+        ]
+    );
+    exit();
 }
 
 
